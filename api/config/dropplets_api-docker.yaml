@@ -1,0 +1,16 @@
+postgres:
+  databases:
+    - dropplets
+  user: postgres
+  password: dropplets1234
+  host: db
+  port: 5432
+  minsize: 3
+  maxsize: 20
+
+redis:
+  host: redis
+  port: 6379
+
+host: 0.0.0.0
+port: 9090

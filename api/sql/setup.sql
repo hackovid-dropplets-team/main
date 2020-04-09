@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS dropplets;
+DROP ROLE IF EXISTS dropplets_user;
+CREATE USER dropplets_user WITH PASSWORD 'dropplets_pass';
+CREATE DATABASE dropplets ENCODING 'UTF8';
+GRANT ALL PRIVILEGES ON DATABASE dropplets TO dropplets_user;
+
 \connect dropplets
 
 SET ROLE 'dropplets_user';

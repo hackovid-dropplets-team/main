@@ -44,16 +44,12 @@ async def read_user_by_username(request, username):
     return response
 
 
-async def create_user(request, user_json):
+async def create_user(request, username, encrypted_pwd, email):
     """
     Creates user from json and returns its object
     """
-    keys = ", ".join(map(str, user_json.keys()))
-    values = "'" + "', '".join(map(str, user_json.values())) + "'"
-    sql_query = (
-        f"INSERT INTO users ({keys}) "
-        f"VALUES ({values}) "
-        "RETURNING * ")
+
+    sql_query = "INSERT INTO users(username, password, email) VALUES ('"+username+"','"+encrypted_pwd+"','"+email+"') RETURNING *"
 
     response = await run_query(request, sql_query, single=True)
 

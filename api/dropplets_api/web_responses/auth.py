@@ -7,11 +7,12 @@ from aiohttp_security import (
 
 from dropplets_api.web_responses import base
 
-from dropplets_api.policies.authorization import check_credentials
+from dropplets_api.policies.authorization import (check_credentials, encrypt_password)
 
-from dropplets_api.db_requests.users import read_user_by_username
+from dropplets_api.db_requests.users import (read_user_by_username, create_user)
 
 import datetime
+import re
 
 
 class AuthHandler:
@@ -28,6 +29,7 @@ class AuthHandler:
             web.get('/auth', self.get_auth),
             web.post('/auth/login', self.post_auth_login),
             web.get('/auth/logout', self.get_auth_logout),
+            web.post('/auth/register', self.post_auth_register)
         ])
 
 
@@ -49,7 +51,28 @@ class AuthHandler:
         return web.json_response(response_dict)
 
 
+    async def post_auth_register(self, request):
+        json = await request.json()
+
+        email = json.get('email')
+        username = json.get('username')
+        password = json.get('password')
+
+        regex_pattern = re.compile("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$")
+
+        if regex_pattern.match(password) and username and password and email:
+            encrypted_pwd = await encrypt_password(password)
+
+            await create_user(request, username, encrypted_pwd, email)
+
+            response = web.Response(body='Register succeed')
+        else:
+            response = web.Response(body='Register process failed')
+        return response
+
+
     async def post_auth_login(self, request):
+        import pdb; pdb.set_trace()
         json = await request.json()
         username = json.get('username')
         password = json.get('password')

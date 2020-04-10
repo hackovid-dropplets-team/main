@@ -16,6 +16,8 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: dropplets1234
+      POSTGRES_DB: dropplets
+      POSTGRES_USER: postgres
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     ports:

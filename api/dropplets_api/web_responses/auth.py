@@ -72,7 +72,6 @@ class AuthHandler:
 
 
     async def post_auth_login(self, request):
-        import pdb; pdb.set_trace()
         json = await request.json()
         username = json.get('username')
         password = json.get('password')

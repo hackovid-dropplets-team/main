@@ -22,6 +22,11 @@ services:
       - ./data/postgres:/var/lib/postgresql/data
     ports:
       - 5432:5432 # CAUTION: for accessing from the outside with dbeaver
+
+      
+  # Per fer servir l'nginx s'ha d'editar el fitxer /etc/hosts i afegir la linia següent:
+  # {PUBLIC_IP} aiohttp
+
   nginx:
     image: nginx
     volumes:
